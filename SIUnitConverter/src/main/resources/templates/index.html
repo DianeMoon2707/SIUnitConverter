@@ -4,6 +4,17 @@
 		<title>SI-System Converter</title>
 	</head>
 	<body>
-		<h1>SI-System Converter</h1>
+		<div class="content">
+			<h1>SI-System Converter</h1>
+			
+			<label for="base-units">Wähle eine Einheit:</label>
+			<select name="base-units" id="base-units" onchange="loadUnitsOfABaseUnit()">
+				<option th:each="baseUnit : ${T(com.si_unit_converter.constants.units.BaseUnits).values()}"
+					th:value="${baseUnit}" th:text="${baseUnit.name}">
+				</option>
+			</select>
+		</div>
+		
+		<script th:src="@{/js/units-script.js}"></script>
 	</body>
 </html>
