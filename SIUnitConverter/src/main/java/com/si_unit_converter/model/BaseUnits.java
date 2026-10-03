@@ -1,4 +1,12 @@
-package com.si_unit_converter.constants.units;
+package com.si_unit_converter.model;
+
+import com.si_unit_converter.model.unit.AmountOfSubstanceUnits;
+import com.si_unit_converter.model.unit.ElectricCurrentUnits;
+import com.si_unit_converter.model.unit.LengthUnits;
+import com.si_unit_converter.model.unit.LuminousIntensityUnits;
+import com.si_unit_converter.model.unit.MassUnits;
+import com.si_unit_converter.model.unit.TemperaturUnits;
+import com.si_unit_converter.model.unit.TimeUnits;
 
 public enum BaseUnits 
 {

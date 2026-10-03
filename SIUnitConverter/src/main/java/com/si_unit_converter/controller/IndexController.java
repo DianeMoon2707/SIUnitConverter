@@ -1,9 +1,14 @@
 package com.si_unit_converter.controller;
 
-import java.util.*;
+import java.util.List;
+import java.util.stream.*;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import com.si_unit_converter.model.BaseUnits;
+import com.si_unit_converter.model.SIUnit;
 
 @Controller
 public class IndexController 
@@ -12,29 +17,34 @@ public class IndexController
 	private static final String UNITS_ROUTE = "index/units";
 	
 	@GetMapping("/")
-	public String loadIndexPage()
+	public String loadIndexPage(Model model)
 	{
+		BaseUnits[] units = BaseUnits.values();
+		model.addAttribute("options", units[0].getUnits());
+		
 		return PAGE_ROUTE;
 	}
 	
 	@ResponseBody
 	@GetMapping(UNITS_ROUTE)
-	public List<String> loadUnits(@RequestParam String baseUnit)
+	public List<String> loadUnits(@RequestParam BaseUnits baseUnit, Model model)
 	{
-		System.out.println("Ja");
-		
-		List<String> units = new ArrayList<String>();
-		if(baseUnit.equals("Masse"))
+		BaseUnits[] units = BaseUnits.values();
+		int index = this.searchSIUnit(units, baseUnit);
+
+		return Stream.of(units[index].getUnits()).map(SIUnit::getSymbol).collect(Collectors.toList());
+	}
+	
+	private int searchSIUnit(BaseUnits[] units, BaseUnits searchedBaseUnit)
+	{		
+		for(int i = 0; i < units.length; i++)
 		{
-			units.add("1");
-		}
-		else
-		{
-			units.add("2");
+			if(units[i] == searchedBaseUnit)
+			{
+				return i;
+			}
 		}
 		
-		System.out.println("Ja");
-		
-		return units;
+		return 0;
 	}
 }

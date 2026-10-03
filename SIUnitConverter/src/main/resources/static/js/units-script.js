@@ -1,9 +1,6 @@
 async function loadUnitsOfABaseUnit()
-{
-	const baseUnit = document.getElementById("base-units").innerHTML;
-	
-	console.log(baseUnit);
-	
+{	
+	const baseUnit = document.getElementById("base-units").value;
 	let units = [];
 	
 	const response = await fetch(`/index/units?baseUnit=${baseUnit}`);
@@ -16,7 +13,31 @@ async function loadUnitsOfABaseUnit()
 	}
 	else
 	{
-		console.log("Hier");
 		units = await response.json();
+		changeSourceAndTargetOptions(units);
 	}
+}
+
+function changeSourceAndTargetOptions(units)
+{
+	const sourceSelect = document.getElementById("source-unit-select");
+	const targetSelect = document.getElementById("target-unit-select");
+
+	sourceSelect.innerHTML = "";
+	targetSelect.innerHTML = "";
+	
+	units.forEach(unit =>
+	{
+		sourceSelect.appendChild(createOption(unit));
+		targetSelect.appendChild(createOption(unit));
+	});
+}
+
+function createOption(unit)
+{
+	const option = document.createElement("option");
+	option.value = unit;
+	option.textContent = unit;
+	
+	return option;
 }

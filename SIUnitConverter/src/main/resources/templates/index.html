@@ -9,10 +9,32 @@
 			
 			<label for="base-units">Wähle eine Einheit:</label>
 			<select name="base-units" id="base-units" onchange="loadUnitsOfABaseUnit()">
-				<option th:each="baseUnit : ${T(com.si_unit_converter.constants.units.BaseUnits).values()}"
+				<option th:each="baseUnit : ${T(com.si_unit_converter.model.BaseUnits).values()}"
 					th:value="${baseUnit}" th:text="${baseUnit.name}">
 				</option>
 			</select>
+			
+			<div class="converter">
+				<div class="converter-side">
+					<input id="source-unit-input" name="source-unit-input" type="number" min="0">
+					<select id="source-unit-select" name="source-unit-select">
+						<option th:each="opt : ${options}" 
+							th:value="${opt}" th:text="${opt.symbol}">
+						</option>
+					</select>
+				</div>
+				
+				<p> = </p>
+				
+				<div class="converter-side">
+					<input id="target-unit-input" name="target-unit-input" type="number" min="0">
+					<select id="target-unit-select" name="target-unit-select">
+						<option th:each="opt : ${options}" 
+							th:value="${opt}" th:text="${opt.symbol}">
+						</option>
+					</select>
+				</div>
+			</div>
 		</div>
 		
 		<script th:src="@{/js/units-script.js}"></script>
