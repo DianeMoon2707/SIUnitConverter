@@ -2,11 +2,11 @@
 <html>
 	<head>
 		<title>SI-System Converter</title>
+		<link rel="stylesheet" th:href="@{/css/style.css}">	
 	</head>
-	<body>
+	<body>	
 		<div class="content">
 			<h1>SI-System Converter</h1>
-			
 			<label for="base-units">Wähle eine Einheit:</label>
 			<select name="base-units" id="base-units" onchange="loadUnitsOfABaseUnit()">
 				<option th:each="baseUnit : ${T(com.si_unit_converter.model.BaseUnits).values()}"
@@ -15,25 +15,27 @@
 			</select>
 			
 			<div class="converter">
-				<div class="converter-side">
-					<input id="source-unit-input" name="source-unit-input" type="number" min="0">
-					<select id="source-unit-select" name="source-unit-select">
-						<option th:each="opt : ${options}" 
-							th:value="${opt}" th:text="${opt.symbol}">
-						</option>
-					</select>
-				</div>
-				
-				<p> = </p>
-				
-				<div class="converter-side">
-					<input id="target-unit-input" name="target-unit-input" type="number" min="0">
-					<select id="target-unit-select" name="target-unit-select">
-						<option th:each="opt : ${options}" 
-							th:value="${opt}" th:text="${opt.symbol}">
-						</option>
-					</select>
-				</div>
+				<form th:action="@{/convert}" method="get">
+					<div class="converter-side">
+						<input id="source-unit-input" name="source-unit-input" type="number" min="0">
+						<select id="source-unit-select" name="source-unit-select">
+							<option th:each="opt : ${options}" 
+								th:value="${opt}" th:text="${opt.symbol}">
+							</option>
+						</select>
+					
+						<p> = </p>
+					
+						<input id="target-unit-input" name="target-unit-input" type="number" min="0">
+						<select id="target-unit-select" name="target-unit-select">
+							<option th:each="opt : ${options}" 
+								th:value="${opt}" th:text="${opt.symbol}">
+							</option>
+						</select>
+					</div>
+					
+					<button>Berechne</button>
+				</form>
 			</div>
 		</div>
 		
