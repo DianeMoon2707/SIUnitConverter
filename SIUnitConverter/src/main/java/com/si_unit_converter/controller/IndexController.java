@@ -35,6 +35,12 @@ public class IndexController
 		return Stream.of(units[index].getUnits()).map(SIUnit::getSymbol).collect(Collectors.toList());
 	}
 	
+	@GetMapping("/convert")
+	public String convertUnits()
+	{
+		return PAGE_ROUTE;
+	}
+	
 	private int searchSIUnit(BaseUnits[] units, BaseUnits searchedBaseUnit)
 	{		
 		for(int i = 0; i < units.length; i++)
