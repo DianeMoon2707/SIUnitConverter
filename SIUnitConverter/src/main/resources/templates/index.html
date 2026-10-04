@@ -21,7 +21,7 @@
 					<div class="converter-side">
 						<input id="source-unit-input" name="source-unit-input" 
 						step="0.01"	type="number"
-						th:min="${selectedBaseUnit == T(com.si_unit_converter.model.BaseUnits).THERMODYNAMIC_TEMPERATUR ? null : 0}"
+						th:min="${selectedBaseUnit == T(com.si_unit_converter.model.BaseUnits).TEMPERATUR ? null : 0}"
 						th:value="${sourceUnitInputValue != null ? sourceUnitInputValue : 0}">
 						<select id="source-unit-select" name="source-unit-select">
 							<option th:each="opt : ${options}" 

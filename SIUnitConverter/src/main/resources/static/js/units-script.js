@@ -47,7 +47,7 @@ function setMinimumNumberForInput(baseUnit)
 {
 	const sourceInput = document.getElementById("source-unit-input");
 	
-	if(baseUnit === "THERMODYNAMIC_TEMPERATUR")
+	if(baseUnit === "TEMPERATUR")
 	{
 		sourceInput.removeAttribute("min");
 	}
