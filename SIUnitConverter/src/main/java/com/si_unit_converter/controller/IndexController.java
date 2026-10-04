@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.si_unit_converter.model.BaseUnits;
 import com.si_unit_converter.model.SIUnit;
+import com.si_unit_converter.service.UnitConverterService;
 
 @Controller
 public class IndexController 
@@ -16,11 +17,23 @@ public class IndexController
 	private static final String PAGE_ROUTE = "index";
 	private static final String UNITS_ROUTE = "index/units";
 	
+	private UnitConverterService unitConverterService;
+	
+	public IndexController(UnitConverterService unitConverterService)
+	{
+		this.unitConverterService = unitConverterService;
+	}
+
 	@GetMapping("/")
 	public String loadIndexPage(Model model)
 	{
-		BaseUnits[] units = BaseUnits.values();
-		model.addAttribute("options", units[0].getUnits());
+		BaseUnits baseUnit = BaseUnits.LENGTH;
+		model.addAttribute("options", 
+			Stream.of(baseUnit.getUnits())
+			.map(SIUnit::getSymbol)
+			.collect(Collectors.toList()));
+		
+		model.addAttribute("selectedBaseUnit", baseUnit);
 		
 		return PAGE_ROUTE;
 	}
@@ -32,12 +45,20 @@ public class IndexController
 		BaseUnits[] units = BaseUnits.values();
 		int index = this.searchSIUnit(units, baseUnit);
 
-		return Stream.of(units[index].getUnits()).map(SIUnit::getSymbol).collect(Collectors.toList());
+		return Stream.of(units[index].getUnits())
+				.map(SIUnit::getSymbol)
+				.collect(Collectors.toList());
 	}
 	
 	@GetMapping("/convert")
-	public String convertUnits()
+	public String convertUnits(Model model,
+			@RequestParam("base-units") BaseUnits baseUnit, @RequestParam("source-unit-input") double input, 
+			@RequestParam("source-unit-select") String sourceUnit, @RequestParam("target-unit-select") String targetUnit)
 	{
+		double result = unitConverterService.convertUnits(baseUnit, input, sourceUnit, targetUnit);
+		
+		this.reloadPage(model, baseUnit, input, result, sourceUnit, targetUnit);
+		
 		return PAGE_ROUTE;
 	}
 	
@@ -52,5 +73,21 @@ public class IndexController
 		}
 		
 		return 0;
+	}
+	
+	private void reloadPage(Model model, BaseUnits baseUnit, double input, double result,
+			String sourceUnit, String targetUnit)
+	{		
+		model.addAttribute("options", 
+				Stream.of(baseUnit.getUnits())
+				.map(SIUnit::getSymbol)
+				.collect(Collectors.toList()));
+		model.addAttribute("selectedBaseUnit", baseUnit);
+		
+		model.addAttribute("sourceUnitInputValue", input);
+		model.addAttribute("targetUnitInputValue", result);
+		
+		model.addAttribute("selectedSourceUnit", sourceUnit);
+		model.addAttribute("selectedTargetUnit", targetUnit);
 	}
 }

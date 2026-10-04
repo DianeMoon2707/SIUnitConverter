@@ -15,6 +15,7 @@ async function loadUnitsOfABaseUnit()
 	{
 		units = await response.json();
 		changeSourceAndTargetOptions(units);
+		setMinimumNumberForInput(baseUnit);
 	}
 }
 
@@ -40,4 +41,18 @@ function createOption(unit)
 	option.textContent = unit;
 	
 	return option;
+}
+
+function setMinimumNumberForInput(baseUnit)
+{
+	const sourceInput = document.getElementById("source-unit-input");
+	
+	if(baseUnit === "THERMODYNAMIC_TEMPERATUR")
+	{
+		sourceInput.removeAttribute("min");
+	}
+	else
+	{
+		sourceInput.setAttribute("min", "0");
+	}
 }
