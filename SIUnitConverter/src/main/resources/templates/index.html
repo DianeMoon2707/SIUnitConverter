@@ -7,38 +7,55 @@
 	<body>	
 		<div class="content">
 			<h1>SI-System Converter</h1>
-			<label for="base-units">Wähle eine Einheit:</label>
-			<select name="base-units" id="base-units" onchange="loadUnitsOfABaseUnit()">
-				<option th:each="baseUnit : ${T(com.si_unit_converter.model.BaseUnits).values()}"
-					th:value="${baseUnit}" th:text="${baseUnit.name}">
-				</option>
-			</select>
 			
-			<div class="converter">
-				<form th:action="@{/convert}" method="get">
+			<!-- Form for converting values -->
+			<form th:action="@{/convert}" method="get">
+				
+				<!-- Selection of the base unit -->
+				<label for="base-units">Wähle eine Einheit:</label>
+				<select name="base-units" id="base-units" onchange="loadUnitsOfABaseUnit()">
+					<option th:each="baseUnit : ${T(com.si_unit_converter.model.BaseUnits).values()}"
+						th:value="${baseUnit}" th:text="${baseUnit.name}"
+						th:selected="${baseUnit == selectedBaseUnit}">
+					</option>
+				</select>
+			
+				<div class="converter">
 					<div class="converter-side">
-						<input id="source-unit-input" name="source-unit-input" type="number" min="0">
+						
+						<!-- Source input and dropdown -->
+						<input id="source-unit-input" name="source-unit-input" 
+						step="0.01"	type="number"
+						th:min="${selectedBaseUnit == T(com.si_unit_converter.model.BaseUnits).TEMPERATUR ? null : 0}"
+						th:value="${sourceUnitInputValue != null ? sourceUnitInputValue : 0}">
 						<select id="source-unit-select" name="source-unit-select">
 							<option th:each="opt : ${options}" 
-								th:value="${opt}" th:text="${opt.symbol}">
+								th:value="${opt}" th:text="${opt}"
+								th:selected="${opt == selectedSourceUnit}">
 							</option>
 						</select>
 					
 						<p> = </p>
 					
-						<input id="target-unit-input" name="target-unit-input" type="number" min="0">
+						<!-- Target readonly input and dropdown -->
+						<input id="target-unit-input" name="target-unit-input" 
+						type="number" readonly
+						th:value="${targetUnitInputValue != null ? targetUnitInputValue : 0}">
 						<select id="target-unit-select" name="target-unit-select">
 							<option th:each="opt : ${options}" 
-								th:value="${opt}" th:text="${opt.symbol}">
+								th:value="${opt}" th:text="${opt}"
+								th:selected="${opt == selectedTargetUnit}">
 							</option>
 						</select>
 					</div>
 					
+					<!-- Button to submit the conversion form -->
 					<button>Berechne</button>
-				</form>
-			</div>
+				</div>
+			</form>
 		</div>
-		
+			
+		<!-- JavaScript for dynamically loading units -->
 		<script th:src="@{/js/units-script.js}"></script>
 	</body>
 </html>

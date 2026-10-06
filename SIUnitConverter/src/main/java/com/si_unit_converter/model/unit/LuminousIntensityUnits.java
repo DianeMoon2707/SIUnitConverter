@@ -2,6 +2,7 @@ package com.si_unit_converter.model.unit;
 
 import com.si_unit_converter.model.LinearUnit;
 
+//Linear units for measuring luminous intensity
 public enum LuminousIntensityUnits implements LinearUnit
 {
 	MILLICANDELA("mcd", 0.001),

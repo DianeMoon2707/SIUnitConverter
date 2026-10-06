@@ -1,56 +1,74 @@
 package com.si_unit_converter.controller;
 
 import java.util.List;
-import java.util.stream.*;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import com.si_unit_converter.constants.*;
 import com.si_unit_converter.model.BaseUnits;
-import com.si_unit_converter.model.SIUnit;
+import com.si_unit_converter.service.UnitConverterService;
 
 @Controller
 public class IndexController 
-{
-	private static final String PAGE_ROUTE = "index";
-	private static final String UNITS_ROUTE = "index/units";
-	
+{	
+	private UnitConverterService unitConverterService;
+
+	public IndexController(UnitConverterService unitConverterService)
+	{
+		this.unitConverterService = unitConverterService;
+	}
+
 	@GetMapping("/")
 	public String loadIndexPage(Model model)
 	{
-		BaseUnits[] units = BaseUnits.values();
-		model.addAttribute("options", units[0].getUnits());
+		BaseUnits baseUnit = BaseUnits.LENGTH;
+		model.addAttribute(AttributeConstants.OPTIONS, BaseUnits.getSymbolList(baseUnit));
 		
-		return PAGE_ROUTE;
+		model.addAttribute(AttributeConstants.SELECTED_BASE_UNIT, baseUnit);
+		
+		return RouteConstants.PAGE;
 	}
 	
+	//Load all units of a specific base unit
 	@ResponseBody
-	@GetMapping(UNITS_ROUTE)
+	@GetMapping(RouteConstants.UNITS)
 	public List<String> loadUnits(@RequestParam BaseUnits baseUnit, Model model)
 	{
 		BaseUnits[] units = BaseUnits.values();
-		int index = this.searchSIUnit(units, baseUnit);
+		int index = BaseUnits.searchSIUnit(units, baseUnit);
 
-		return Stream.of(units[index].getUnits()).map(SIUnit::getSymbol).collect(Collectors.toList());
+		return BaseUnits.getSymbolList(units[index]);
 	}
 	
 	@GetMapping("/convert")
-	public String convertUnits()
+	public String convertUnits(Model model,
+			@RequestParam(RequestParamConstants.BASE_UNIT) BaseUnits baseUnit, 
+			@RequestParam(RequestParamConstants.SOURCE_UNIT_INPUT) double input, 
+			@RequestParam(RequestParamConstants.SOURCE_UNIT_SELECT) String sourceUnit, 
+			@RequestParam(RequestParamConstants.TARGET_UNIT_SELECT) String targetUnit)
 	{
-		return PAGE_ROUTE;
+		double result = unitConverterService.convertUnits(baseUnit, input, sourceUnit, targetUnit);
+		this.reloadPage(model, baseUnit, input, result, sourceUnit, targetUnit);
+		return RouteConstants.PAGE;
 	}
 	
-	private int searchSIUnit(BaseUnits[] units, BaseUnits searchedBaseUnit)
+	/**
+	 * Prepares the model for reloading the converter page after a unit conversion.
+	 * The selected base unit, source and target units, and input and result values
+	 * are added to the model so that the current selections and values are preserved.
+	 */
+	private void reloadPage(Model model, BaseUnits baseUnit, double input, double result,
+			String sourceUnit, String targetUnit)
 	{		
-		for(int i = 0; i < units.length; i++)
-		{
-			if(units[i] == searchedBaseUnit)
-			{
-				return i;
-			}
-		}
+		model.addAttribute(AttributeConstants.OPTIONS, BaseUnits.getSymbolList(baseUnit));
+		model.addAttribute(AttributeConstants.SELECTED_BASE_UNIT, baseUnit);
 		
-		return 0;
+		model.addAttribute(AttributeConstants.SOURCE_UNIT_INPUT, input);
+		model.addAttribute(AttributeConstants.TARGET_UNIT_INPUT, result);
+		
+		model.addAttribute(AttributeConstants.SELECTED_SOURCE_UNIT, sourceUnit);
+		model.addAttribute(AttributeConstants.SELECTED_TARGET_UNIT, targetUnit);
 	}
 }

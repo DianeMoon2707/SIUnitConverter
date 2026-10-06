@@ -2,12 +2,14 @@ package com.si_unit_converter.model.unit;
 
 import com.si_unit_converter.model.SIUnit;
 
+//Temperature units with individual conversion methods
 public enum TemperaturUnits implements SIUnit
 {
 	KELVIN("K"),
 	CELSIUS("°C");
 	
 	private String symbol;
+	private static final double FACTOR = 273.15;
 
 	TemperaturUnits(String symbol)
 	{
@@ -25,7 +27,7 @@ public enum TemperaturUnits implements SIUnit
 		return switch(this)
 		{
 			case CELSIUS -> value;
-			case KELVIN -> value - 273.15;
+			case KELVIN -> value - FACTOR;
 		};
 	}
 
@@ -35,7 +37,7 @@ public enum TemperaturUnits implements SIUnit
 		return switch(this)
 		{
 			case CELSIUS -> value;
-			case KELVIN -> value + 273.15;
+			case KELVIN -> value + FACTOR;
 		};
 	}
 }

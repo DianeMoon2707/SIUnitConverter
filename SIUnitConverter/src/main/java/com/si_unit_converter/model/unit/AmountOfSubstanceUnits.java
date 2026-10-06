@@ -2,6 +2,7 @@ package com.si_unit_converter.model.unit;
 
 import com.si_unit_converter.model.LinearUnit;
 
+//Linear units for measuring amount of substance
 public enum AmountOfSubstanceUnits implements LinearUnit
 {
 	MICROMOLE("µmol", 0.0000001),

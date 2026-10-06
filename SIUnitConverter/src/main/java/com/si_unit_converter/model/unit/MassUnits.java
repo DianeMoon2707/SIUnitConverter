@@ -2,6 +2,7 @@ package com.si_unit_converter.model.unit;
 
 import com.si_unit_converter.model.LinearUnit;
 
+//Linear units for measuring weight
 public enum MassUnits implements LinearUnit
 {
 	GRAM("g", 0.001),

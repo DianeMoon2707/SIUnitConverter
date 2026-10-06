@@ -1,15 +1,17 @@
+/* Reset default browser styles */
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
 }
 
+/* Page style */
 body {
 	background: #fffacd;
 	
 	display: flex;
 	justify-content: center;
-	align-items:center;
+	align-items: center;
 	
 	min-height: 100vh;
 }
@@ -18,7 +20,7 @@ body {
 	background: #ffd700;
 	border: 2px solid black;
 	
-	width: 500px;
+	width: 700px;
 	
 	padding: 10px;
 	margin: 5px;
@@ -37,7 +39,7 @@ body {
 }
 
 .content select {
-	font-size: 25px;
+	font-size: 25px;	
 	width: 50%;
 	padding: 5px;
 }
@@ -74,10 +76,14 @@ body {
 
 .converter-side input {
 	font-size: 25px;
-	width: 100px;
+	width: 200px;
 	
 	margin: 5px;
 	padding: 5px;
+}
+
+.converter-side input:read-only {
+	background-color: lightgray;
 }
 
 .converter-side select {

@@ -1,20 +1,18 @@
 package com.si_unit_converter.model;
 
-import com.si_unit_converter.model.unit.AmountOfSubstanceUnits;
-import com.si_unit_converter.model.unit.ElectricCurrentUnits;
-import com.si_unit_converter.model.unit.LengthUnits;
-import com.si_unit_converter.model.unit.LuminousIntensityUnits;
-import com.si_unit_converter.model.unit.MassUnits;
-import com.si_unit_converter.model.unit.TemperaturUnits;
-import com.si_unit_converter.model.unit.TimeUnits;
+import java.util.List;
+import java.util.stream.*;
 
+import com.si_unit_converter.model.unit.*;
+
+//Available SI base unit categories with their corresponding units
 public enum BaseUnits 
 {
 	LENGTH("Länge", LengthUnits.values()),
 	MASS("Masse", MassUnits.values()),
-	Time("Zeit", TimeUnits.values()),
+	TIME("Zeit", TimeUnits.values()),
 	ELECTRIC_CURRENT("Elektrischer Strom", ElectricCurrentUnits.values()),
-	THERMODYNAMIC_TEMPERATUR("Thermodynamische Temperatur", TemperaturUnits.values()),
+	TEMPERATUR("Temperatur", TemperaturUnits.values()),
 	AMOUNT_OF_SUBSTANCE("Stoffmenge", AmountOfSubstanceUnits.values()),
 	LUMINOUS_INTENSITY("Lichtstärke", LuminousIntensityUnits.values());
 	
@@ -35,5 +33,27 @@ public enum BaseUnits
 	public SIUnit[] getUnits()
 	{
 		return units;
+	}
+	
+	//Searches for the position of a base unit in the given array
+	public static int searchSIUnit(BaseUnits[] units, BaseUnits searchedBaseUnit)
+	{		
+		for(int i = 0; i < units.length; i++)
+		{
+			if(units[i] == searchedBaseUnit)
+			{
+				return i;
+			}
+		}
+		
+		return 0;
+	}
+	
+	//Returns the symbols of all units belonging to the given base unit
+	public static List<String> getSymbolList(BaseUnits baseUnit)
+	{
+		return Stream.of(baseUnit.getUnits())
+				.map(SIUnit::getSymbol)
+				.collect(Collectors.toList());
 	}
 }

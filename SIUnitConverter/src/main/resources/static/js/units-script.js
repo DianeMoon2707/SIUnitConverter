@@ -1,3 +1,4 @@
+//Loads the units for a selected base unit
 async function loadUnitsOfABaseUnit()
 {	
 	const baseUnit = document.getElementById("base-units").value;
@@ -15,9 +16,11 @@ async function loadUnitsOfABaseUnit()
 	{
 		units = await response.json();
 		changeSourceAndTargetOptions(units);
+		setMinimumNumberForInput(baseUnit);
 	}
 }
 
+//Sets the units of the selected base unit for the selection fields
 function changeSourceAndTargetOptions(units)
 {
 	const sourceSelect = document.getElementById("source-unit-select");
@@ -33,6 +36,7 @@ function changeSourceAndTargetOptions(units)
 	});
 }
 
+//Creates an option emelement for a unit
 function createOption(unit)
 {
 	const option = document.createElement("option");
@@ -40,4 +44,19 @@ function createOption(unit)
 	option.textContent = unit;
 	
 	return option;
+}
+
+//Sets the minimum input value depending on the selected base unit
+function setMinimumNumberForInput(baseUnit)
+{
+	const sourceInput = document.getElementById("source-unit-input");
+	
+	if(baseUnit === "TEMPERATUR")
+	{
+		sourceInput.removeAttribute("min");
+	}
+	else
+	{
+		sourceInput.setAttribute("min", "0");
+	}
 }
