@@ -1,5 +1,6 @@
 package com.si_unit_converter.constants;
 
+//Central collection of constants for model attributes passed from the controller to the HTML view.
 public class AttributeConstants 
 {
 	public static final String OPTIONS = "options";

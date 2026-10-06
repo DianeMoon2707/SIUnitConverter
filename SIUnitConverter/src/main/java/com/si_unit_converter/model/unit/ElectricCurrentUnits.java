@@ -2,6 +2,7 @@ package com.si_unit_converter.model.unit;
 
 import com.si_unit_converter.model.LinearUnit;
 
+//Linear units for measuring electric current
 public enum ElectricCurrentUnits implements LinearUnit
 {
 	MICROAMPERE("µA", 0.000001),

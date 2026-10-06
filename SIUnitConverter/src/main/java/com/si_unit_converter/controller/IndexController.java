@@ -31,6 +31,7 @@ public class IndexController
 		return RouteConstants.PAGE;
 	}
 	
+	//Load all units of a specific base unit
 	@ResponseBody
 	@GetMapping(RouteConstants.UNITS)
 	public List<String> loadUnits(@RequestParam BaseUnits baseUnit, Model model)
@@ -49,12 +50,15 @@ public class IndexController
 			@RequestParam(RequestParamConstants.TARGET_UNIT_SELECT) String targetUnit)
 	{
 		double result = unitConverterService.convertUnits(baseUnit, input, sourceUnit, targetUnit);
-		
 		this.reloadPage(model, baseUnit, input, result, sourceUnit, targetUnit);
-		
 		return RouteConstants.PAGE;
 	}
 	
+	/**
+	 * Prepares the model for reloading the converter page after a unit conversion.
+	 * The selected base unit, source and target units, and input and result values
+	 * are added to the model so that the current selections and values are preserved.
+	 */
 	private void reloadPage(Model model, BaseUnits baseUnit, double input, double result,
 			String sourceUnit, String targetUnit)
 	{		

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.si_unit_converter.model.BaseUnits;
 import com.si_unit_converter.model.SIUnit;
 
+//Service for converting values between SI units
 @Service
 public class UnitConverterService 
 {

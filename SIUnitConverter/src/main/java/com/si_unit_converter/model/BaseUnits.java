@@ -5,6 +5,7 @@ import java.util.stream.*;
 
 import com.si_unit_converter.model.unit.*;
 
+//Available SI base unit categories with their corresponding units
 public enum BaseUnits 
 {
 	LENGTH("Länge", LengthUnits.values()),
@@ -34,6 +35,7 @@ public enum BaseUnits
 		return units;
 	}
 	
+	//Searches for the position of a base unit in the given array
 	public static int searchSIUnit(BaseUnits[] units, BaseUnits searchedBaseUnit)
 	{		
 		for(int i = 0; i < units.length; i++)
@@ -47,6 +49,7 @@ public enum BaseUnits
 		return 0;
 	}
 	
+	//Returns the symbols of all units belonging to the given base unit
 	public static List<String> getSymbolList(BaseUnits baseUnit)
 	{
 		return Stream.of(baseUnit.getUnits())

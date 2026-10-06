@@ -2,6 +2,7 @@ package com.si_unit_converter.model.unit;
 
 import com.si_unit_converter.model.LinearUnit;
 
+//Linear units for measuring time
 public enum TimeUnits implements LinearUnit
 {
 	SECOND("s", 1),

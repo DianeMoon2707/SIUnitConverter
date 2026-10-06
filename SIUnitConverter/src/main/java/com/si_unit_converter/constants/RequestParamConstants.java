@@ -1,5 +1,6 @@
 package com.si_unit_converter.constants;
 
+//Central collection of constants for HTTP request parameters used by the controller to retrieve submitted form data.
 public class RequestParamConstants 
 {
 	public static final String BASE_UNIT = "base-units";
